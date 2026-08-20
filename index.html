@@ -145,25 +145,11 @@
     letter-spacing:.42em;
     padding-left:.42em; /* balance the trailing tracking */
   }
-  .hero-scroll{
-    margin-top:44px;
-    font-family:var(--sans);
-    font-size:10px;
-    letter-spacing:.2em;
-    text-transform:uppercase;
+  .hero-rings{
+    width:40px; height:auto;
+    margin-top:38px;
     color:var(--ink-45);
-    display:inline-flex;
-    flex-direction:column;
-    align-items:center;
-    gap:8px;
-  }
-  .hero-scroll span{
-    width:1px; height:28px; background:var(--ink-45);
-    animation:pulse-down 2.2s ease-in-out infinite;
-  }
-  @keyframes pulse-down{
-    0%,100%{ transform:scaleY(.6); opacity:.4; }
-    50%{ transform:scaleY(1); opacity:1; }
+    opacity:.75;
   }
 
   /* ============================================================
@@ -321,6 +307,13 @@
   .btn-outline:hover{ background:var(--ink); color:var(--white); }
   .btn-row{ display:flex; gap:10px; margin-top:18px; }
   .btn-row .btn{ width:auto; flex:1; }
+  .btn-map{
+    width:auto;
+    margin-top:16px;
+    padding:11px 16px;
+    font-size:10.5px;
+  }
+  .btn-map svg{ width:14px; height:14px; }
 
   .kids-note{
     font-style:italic;
@@ -368,6 +361,12 @@
   .copy-btn:hover{ background:var(--ink); color:var(--white); }
   .copy-btn.copied{ background:var(--ink); color:var(--white); }
 
+  .gift-intro{
+    font-size:16px;
+    line-height:1.6;
+    color:var(--ink-70);
+    margin:0 0 20px;
+  }
   .gift-amount{
     font-family:var(--display);
     font-size:30px;
@@ -473,6 +472,21 @@
   .form-feedback.show{ display:block; }
   .form-feedback.error{ border-color:#b3261e; color:#b3261e; }
 
+  .success-mark{
+    width:56px; height:56px;
+    margin:6px auto 20px;
+    border-radius:50%;
+    border:1px solid var(--ink);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink);
+  }
+  .success-mark svg{ width:26px; height:26px; }
+  #rsvp-success-view .modal-sub{
+    max-width:300px; margin-left:auto; margin-right:auto;
+    margin-bottom:28px;
+  }
+  #rsvp-success-view .btn{ width:100%; }
+
   /* ============================================================
      BOTTOM BAR — sticky RSVP + music player, app-style
      ============================================================ */
@@ -517,19 +531,47 @@
     white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
   .rsvp-cta{
+    position:relative;
     flex:none;
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
     font-family:var(--sans);
-    font-size:11px;
+    font-weight:600;
+    font-size:11.5px;
     letter-spacing:.1em;
     text-transform:uppercase;
     background:var(--white);
     color:var(--ink);
     border:none;
-    padding:11px 16px;
+    padding:12px 18px;
     border-radius:var(--radius);
-    transition:opacity .2s ease;
+    transition:opacity .2s ease, transform .15s ease;
   }
   .rsvp-cta:hover{ opacity:.85; }
+  .rsvp-cta:active{ transform:scale(.96); }
+  .rsvp-cta svg{ width:13px; height:13px; flex:none; animation:nudge-right 1.8s ease-in-out infinite; }
+  .rsvp-cta::before{
+    content:"";
+    position:absolute; inset:0;
+    border-radius:var(--radius);
+    border:1.5px solid var(--white);
+    animation:cta-pulse 2.2s ease-out infinite;
+    pointer-events:none;
+  }
+  @keyframes cta-pulse{
+    0%   { transform:scale(1);    opacity:.6; }
+    70%  { transform:scale(1.16); opacity:0; }
+    100% { transform:scale(1.16); opacity:0; }
+  }
+  @keyframes nudge-right{
+    0%,100%{ transform:translateX(0); }
+    50%{ transform:translateX(3px); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .rsvp-cta::before{ animation:none; }
+    .rsvp-cta svg{ animation:none; }
+  }
 
   /* ============================================================
      FOOTER
@@ -551,8 +593,16 @@
     color:var(--ink-45);
     margin:0;
   }
+  footer p{ line-height:1.9; }
   footer a{ color:var(--ink-45); text-decoration:underline; text-underline-offset:2px; }
   footer a:hover{ color:var(--ink); }
+  footer .footer-brand{
+    font-family:var(--display);
+    font-size:13px;
+    letter-spacing:.04em;
+    color:var(--ink-70);
+  }
+  footer .footer-brand:hover{ color:var(--ink); }
 
   @media (max-width:380px){
     section{ padding:52px 20px; }
@@ -575,7 +625,10 @@
     <h1 class="hero-names">Meli &amp; Negro</h1>
     <p class="hero-fullnames">Melisa Lucía Fernández Leyes<br>&amp; Martín Mauricio Luna</p>
     <p class="hero-date">14 • 11 • 2026</p>
-    <div class="hero-scroll"><span></span>Descubrí más</div>
+    <svg class="hero-rings" viewBox="0 0 48 28" aria-hidden="true">
+      <circle cx="18" cy="14" r="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+      <circle cx="30" cy="14" r="10" fill="none" stroke="currentColor" stroke-width="1.3"/>
+    </svg>
   </header>
 
   <!-- ============================================================
@@ -599,12 +652,12 @@
     <div class="ticket">
       <div class="tape tl"></div>
       <div class="tape tr"></div>
-      <div class="ticket-head">Fotomatón · 20 años</div>
+      <div class="ticket-head">Para No Olvidar · 20 años</div>
       <div class="perf"></div>
       <div class="strip-photos">
-        <img src="assets/foto-1.jpeg" alt="Meli y Negro en un salón, junto al piano">
-        <img src="assets/foto-2.jpeg" alt="Meli y Negro entre la nieve, riendo">
-        <img src="assets/foto-3.jpeg" alt="Meli y Negro, primer plano sonriendo">
+        <img src="assets/foto-1.jpeg" alt="Meli y Negro, foto en blanco y negro junto al lago">
+        <img src="assets/foto-2.jpeg" alt="Meli y Negro juntos junto al lago">
+        <img src="assets/foto-3.jpeg" alt="Meli, Negro y sus hijos al atardecer">
       </div>
       <div class="perf"></div>
       <p class="ticket-caption">14 · 11 · 2026</p>
@@ -625,6 +678,10 @@
       <h3 class="card-title">Parroquia Ntra. Sra. de Fátima</h3>
       <p class="card-addr">Av. del Viento Chorrillero 1602<br>Juana Koslay, San Luis</p>
       <span class="card-time">18:30 HS</span>
+      <a class="btn btn-outline btn-map" id="map-ceremonia" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        Cómo llegar
+      </a>
     </div>
 
     <div class="card">
@@ -635,12 +692,13 @@
       <h3 class="card-title">Salón de los Contadores</h3>
       <p class="card-addr">Juana Koslay, San Luis</p>
       <span class="card-time">20:30 HS</span>
+      <a class="btn btn-outline btn-map" id="map-fiesta" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        Cómo llegar
+      </a>
     </div>
 
-    <div class="btn-row">
-      <button class="btn btn-outline" id="btn-ics">Descargar .ics</button>
-      <a class="btn" id="btn-gcal" href="#" target="_blank" rel="noopener">Google Calendar</a>
-    </div>
+    <a class="btn" id="btn-gcal" href="#" target="_blank" rel="noopener" style="margin-top:18px;">Agregar a Google Calendar</a>
   </section>
 
   <!-- ============================================================
@@ -682,8 +740,9 @@
        REGALO / CBU
        ============================================================ -->
   <section class="reveal">
-    <p class="eyebrow">Si querés hacernos un regalo</p>
+    <p class="eyebrow">Nueva etapa</p>
     <div class="card">
+      <p class="gift-intro">Queremos festejar juntos esta nueva etapa. Te compartimos la información para la confirmación de tu tarjeta.</p>
       <div class="gift-amount">$85.000</div>
       <div class="gift-deadline">Cancelar antes del 15/10/2026</div>
 
@@ -719,7 +778,7 @@
   <footer>
     <hr class="rule">
     <div class="monogram">M &amp; N</div>
-    <p>Desarrollado por <a href="https://www.somoslogica.com.ar" target="_blank" rel="noopener">Somos Lógica</a></p>
+    <p>Desarrollado por<br><a class="footer-brand" href="https://www.somoslogica.com.ar" target="_blank" rel="noopener">Lógica</a></p>
   </footer>
 
   <!-- ============================================================
@@ -734,7 +793,10 @@
       <div class="track-title">Para No Olvidar</div>
       <div class="track-artist">Los Rodríguez</div>
     </div>
-    <button class="rsvp-cta" id="open-rsvp">Confirmar</button>
+    <button class="rsvp-cta" id="open-rsvp">
+      Confirmar
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
   </div>
 
   <!-- Reproductor de YouTube oculto: transmite el audio oficial en vez de
@@ -748,43 +810,75 @@
      ============================================================ -->
 <div class="modal-overlay" id="rsvp-overlay">
   <div class="modal">
-    <div class="modal-head">
-      <h2 class="modal-title">Confirmar asistencia</h2>
-      <button class="modal-close" id="close-rsvp" aria-label="Cerrar">&times;</button>
-    </div>
-    <p class="modal-sub">Contanos si nos acompañás antes del 15/10/2026.</p>
 
-    <form id="rsvp-form">
-      <div class="field">
-        <label for="nombre">Nombre y apellido</label>
-        <input type="text" id="nombre" name="nombre" required autocomplete="name">
+    <!-- ---------- Vista: formulario ---------- -->
+    <div id="rsvp-form-view">
+      <div class="modal-head">
+        <h2 class="modal-title">Confirmar asistencia</h2>
+        <button class="modal-close" id="close-rsvp" aria-label="Cerrar">&times;</button>
       </div>
+      <p class="modal-sub">Contanos si nos acompañás antes del 15/10/2026.</p>
 
-      <div class="field">
-        <label>¿Nos acompañás?</label>
-        <div class="radio-group">
-          <label class="radio-pill" data-value="Sí">
-            <input type="radio" name="asistencia" value="Sí" required> Sí, voy
-          </label>
-          <label class="radio-pill" data-value="No">
-            <input type="radio" name="asistencia" value="No"> No puedo
-          </label>
+      <form id="rsvp-form">
+        <div class="field">
+          <label for="nombre">Nombre y apellido</label>
+          <input type="text" id="nombre" name="nombre" required autocomplete="name">
         </div>
-      </div>
 
-      <div class="field">
-        <label for="menu">Menú especial / restricción alimentaria</label>
-        <textarea id="menu" name="menu" rows="2" placeholder="Opcional"></textarea>
-      </div>
+        <div class="field">
+          <label>¿Nos acompañás?</label>
+          <div class="radio-group">
+            <label class="radio-pill" data-value="Sí">
+              <input type="radio" name="asistencia" value="Sí" required> Sí, voy
+            </label>
+            <label class="radio-pill" data-value="No">
+              <input type="radio" name="asistencia" value="No"> No puedo
+            </label>
+          </div>
+        </div>
 
-      <div class="field">
-        <label for="cancion">Una canción que no puede faltar</label>
-        <input type="text" id="cancion" name="cancion" placeholder="Opcional">
-      </div>
+        <div class="field">
+          <label>¿Venís en pareja?</label>
+          <div class="radio-group">
+            <label class="radio-pill" data-value="Sí" data-group="pareja">
+              <input type="radio" name="pareja" value="Sí"> Sí
+            </label>
+            <label class="radio-pill" data-value="No" data-group="pareja">
+              <input type="radio" name="pareja" value="No"> No
+            </label>
+          </div>
+        </div>
 
-      <button type="submit" class="btn" id="submit-btn">Enviar confirmación</button>
-      <div class="form-feedback" id="form-feedback"></div>
-    </form>
+        <div class="field" id="field-pareja" style="display:none;">
+          <label for="nombrePareja">Nombre y apellido de tu pareja</label>
+          <input type="text" id="nombrePareja" name="nombrePareja" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label for="menu">Menú especial / restricción alimentaria</label>
+          <textarea id="menu" name="menu" rows="2" placeholder="Opcional"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="cancion">Una canción que no puede faltar</label>
+          <input type="text" id="cancion" name="cancion" placeholder="Opcional">
+        </div>
+
+        <button type="submit" class="btn" id="submit-btn">Enviar confirmación</button>
+        <div class="form-feedback" id="form-feedback"></div>
+      </form>
+    </div>
+
+    <!-- ---------- Vista: agradecimiento ---------- -->
+    <div id="rsvp-success-view" style="display:none;">
+      <div class="success-mark">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="12" r="10.5"/><path d="m7.5 12.5 3 3 6-6.5"/></svg>
+      </div>
+      <h2 class="modal-title" style="text-align:center;" id="success-title">¡Gracias!</h2>
+      <p class="modal-sub" id="success-message" style="text-align:center;"></p>
+      <button type="button" class="btn btn-outline" id="close-success">Cerrar</button>
+    </div>
+
   </div>
 </div>
 
@@ -793,7 +887,7 @@
    CONFIG
    ================================================================ */
 // URL del Web App de Google Apps Script (ver codigo.gs). Reemplazar tras el deploy.
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzqwgrSR3e2twgIktUQex9Ko5KmhVnI4r-i5qbLRNFm3gdJvs7NS_fLy7eKmZ4QLxwRAA/exec";
+const APPS_SCRIPT_URL = "TU_WEB_APP_URL_AQUI";
 
 // Fecha/hora de la ceremonia — Argentina (UTC-3)
 const EVENT_START = new Date("2026-11-14T18:30:00-03:00");
@@ -824,44 +918,11 @@ tickCountdown();
 setInterval(tickCountdown, 1000);
 
 /* ================================================================
-   CALENDARIO — .ics y Google Calendar
+   CALENDARIO — Google Calendar
    ================================================================ */
 function toICSDate(d){
   return d.toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
 }
-
-function buildICS(){
-  const description = "Ceremonia religiosa 18:30 hs en Parroquia Ntra. Sra. de Fatima, " +
-    "Av. del Viento Chorrillero 1602, Juana Koslay. Fiesta 20:30 hs en Salon de los " +
-    "Contadores, Juana Koslay, San Luis.";
-  return [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Meli & Negro//Boda//ES",
-    "BEGIN:VEVENT",
-    "UID:" + Date.now() + "@meliynegro",
-    "DTSTAMP:" + toICSDate(new Date()),
-    "DTSTART:" + toICSDate(EVENT_START),
-    "DTEND:" + toICSDate(EVENT_END),
-    "SUMMARY:Boda de Meli & Negro",
-    "DESCRIPTION:" + description,
-    "LOCATION:Salón de los Contadores, Juana Koslay, San Luis",
-    "END:VEVENT",
-    "END:VCALENDAR"
-  ].join("\r\n");
-}
-
-document.getElementById("btn-ics").addEventListener("click", () => {
-  const blob = new Blob([buildICS()], { type: "text/calendar;charset=utf-8" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "boda-meli-y-negro.ics";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-});
 
 (function setGoogleCalendarLink(){
   const dates = toICSDate(EVENT_START) + "/" + toICSDate(EVENT_END);
@@ -874,6 +935,20 @@ document.getElementById("btn-ics").addEventListener("click", () => {
   });
   document.getElementById("btn-gcal").href =
     "https://calendar.google.com/calendar/render?" + params.toString();
+})();
+
+/* ================================================================
+   UBICACIONES — Google Maps
+   ================================================================ */
+(function setMapLinks(){
+  const direcciones = {
+    "map-ceremonia": "Parroquia Ntra. Sra. de Fátima, Av. del Viento Chorrillero 1602, Juana Koslay, San Luis",
+    "map-fiesta":     "Salón de los Contadores, Juana Koslay, San Luis"
+  };
+  Object.entries(direcciones).forEach(([id, direccion]) => {
+    const params = new URLSearchParams({ api: "1", query: direccion });
+    document.getElementById(id).href = "https://www.google.com/maps/search/?" + params.toString();
+  });
 })();
 
 /* ================================================================
@@ -963,21 +1038,55 @@ playBtn.addEventListener("click", () => {
 /* ================================================================
    MODAL RSVP
    ================================================================ */
-const overlay   = document.getElementById("rsvp-overlay");
-const openBtn   = document.getElementById("open-rsvp");
-const closeBtn  = document.getElementById("close-rsvp");
+const overlay     = document.getElementById("rsvp-overlay");
+const openBtn      = document.getElementById("open-rsvp");
+const closeBtn      = document.getElementById("close-rsvp");
+const closeSuccessBtn= document.getElementById("close-success");
+const formView       = document.getElementById("rsvp-form-view");
+const successView    = document.getElementById("rsvp-success-view");
 
 function openModal(){ overlay.classList.add("open"); document.body.style.overflow="hidden"; }
 function closeModal(){ overlay.classList.remove("open"); document.body.style.overflow=""; }
 
-openBtn.addEventListener("click", openModal);
+function showFormView(){
+  formView.style.display = "block";
+  successView.style.display = "none";
+}
+function showSuccessView(){
+  formView.style.display = "none";
+  successView.style.display = "block";
+}
+
+openBtn.addEventListener("click", () => { showFormView(); openModal(); });
 closeBtn.addEventListener("click", closeModal);
+closeSuccessBtn.addEventListener("click", closeModal);
 overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
 
-document.querySelectorAll(".radio-pill").forEach(pill => {
-  pill.addEventListener("click", () => {
-    document.querySelectorAll(".radio-pill").forEach(p => p.classList.remove("active"));
-    pill.classList.add("active");
+// Cada grupo de radio-pills (asistencia / pareja) se activa de forma
+// independiente, sin pisar la selección del otro grupo.
+document.querySelectorAll(".radio-group").forEach(group => {
+  group.querySelectorAll(".radio-pill").forEach(pill => {
+    pill.addEventListener("click", () => {
+      group.querySelectorAll(".radio-pill").forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+    });
+  });
+});
+
+// Muestra / oculta el campo "Nombre de tu pareja" según la respuesta.
+const camposPareja = document.getElementById("field-pareja");
+const inputPareja  = document.getElementById("nombrePareja");
+
+document.querySelectorAll('input[name="pareja"]').forEach(radio => {
+  radio.addEventListener("change", () => {
+    const vaConPareja = radio.value === "Sí" && radio.checked;
+    camposPareja.style.display = vaConPareja ? "block" : "none";
+    if (vaConPareja) {
+      inputPareja.setAttribute("required", "required");
+    } else {
+      inputPareja.removeAttribute("required");
+      inputPareja.value = "";
+    }
   });
 });
 
@@ -987,15 +1096,19 @@ document.querySelectorAll(".radio-pill").forEach(pill => {
 const form      = document.getElementById("rsvp-form");
 const submitBtn = document.getElementById("submit-btn");
 const feedback  = document.getElementById("form-feedback");
+const successTitle   = document.getElementById("success-title");
+const successMessage = document.getElementById("success-message");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const data = {
-    nombre:     form.nombre.value.trim(),
-    asistencia: form.asistencia.value,
-    menu:       form.menu.value.trim(),
-    cancion:    form.cancion.value.trim()
+    nombre:        form.nombre.value.trim(),
+    asistencia:    form.asistencia.value,
+    pareja:        form.pareja.value || "No",
+    nombrePareja:  form.nombrePareja.value.trim(),
+    menu:          form.menu.value.trim(),
+    cancion:       form.cancion.value.trim()
   };
 
   submitBtn.disabled = true;
@@ -1014,11 +1127,25 @@ form.addEventListener("submit", async (e) => {
       body: JSON.stringify(data)
     });
 
-    feedback.textContent = "¡Gracias, " + (data.nombre.split(" ")[0] || "") + "! Tu confirmación fue recibida.";
-    feedback.classList.add("show");
+    const primerNombre = data.nombre.split(" ")[0] || "";
+
+    if (data.asistencia === "No") {
+      successTitle.textContent = "¡Gracias por avisarnos!";
+      successMessage.textContent = "Lamentamos que " + (primerNombre ? primerNombre + " " : "") +
+        "no puedas acompañarnos, ¡te vamos a extrañar en la fiesta!";
+    } else {
+      successTitle.textContent = "¡Nos vemos el 14.11!";
+      successMessage.textContent = (primerNombre ? "Gracias, " + primerNombre + ". " : "¡Gracias! ") +
+        (data.pareja === "Sí" && data.nombrePareja
+          ? "Ya anotamos a " + data.nombrePareja + " también. "
+          : "") +
+        "Nos hace muy felices que celebres con nosotros esta nueva etapa.";
+    }
+
     form.reset();
     document.querySelectorAll(".radio-pill").forEach(p => p.classList.remove("active"));
-    setTimeout(closeModal, 2200);
+    camposPareja.style.display = "none";
+    showSuccessView();
 
   } catch (err) {
     feedback.textContent = "No pudimos enviar tu confirmación. Probá de nuevo en unos minutos.";
