@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Meli & Negro · 14.11.2026</title>
+<meta name="theme-color" content="#121212">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     TOKENS
+     ============================================================ */
+  :root{
+    --ink:        #121212;
+    --ink-70:     #3a3a3a;
+    --ink-45:     #767672;
+    --line:       #dedcd6;
+    --line-soft:  #ececea;
+    --paper:      #f7f7f4;
+    --white:      #ffffff;
+    --shadow-sm:  0 1px 2px rgba(18,18,18,.06), 0 6px 18px rgba(18,18,18,.05);
+    --shadow-md:  0 10px 30px rgba(18,18,18,.10);
+    --radius:     3px;
+    --gap:        20px;
+    --maxw:       460px;
+    --display:    'Cinzel', serif;
+    --serif:      'Cormorant Garamond', serif;
+    --sans:       'Jost', sans-serif;
+  }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:#e8e7e2;
+    color:var(--ink);
+    font-family:var(--serif);
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    *{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+  }
+
+  img{ max-width:100%; display:block; }
+  button{ font-family:inherit; cursor:pointer; }
+  a{ color:inherit; }
+
+  /* subtle paper grain, kept extremely quiet */
+  .grain{
+    position:fixed; inset:0; pointer-events:none; z-index:2; opacity:.035; mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ============================================================
+     APP FRAME — mobile-app feel on any viewport
+     ============================================================ */
+  .app{
+    max-width:var(--maxw);
+    margin:0 auto;
+    background:var(--white);
+    min-height:100vh;
+    position:relative;
+    box-shadow:var(--shadow-md);
+    overflow:hidden;
+    padding-bottom:92px; /* room for bottom bar */
+  }
+
+  section{ padding:64px 28px; position:relative; }
+  .eyebrow{
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.28em;
+    text-transform:uppercase;
+    color:var(--ink-45);
+    margin:0 0 14px;
+  }
+  .rule{
+    border:0; height:1px; background:var(--ink); opacity:.9; margin:0;
+  }
+  .rule-pair{ display:flex; flex-direction:column; gap:3px; margin:26px 0; }
+  .rule-pair .rule:first-child{ height:1.5px; }
+  .rule-pair .rule:last-child{ opacity:.35; }
+
+  /* reveal-on-scroll */
+  .reveal{ opacity:0; transform:translateY(14px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.is-visible{ opacity:1; transform:translateY(0); }
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+  .hero{
+    padding:56px 28px 48px;
+    text-align:center;
+    position:relative;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .hero-ghost{
+    position:absolute;
+    top:38%; left:50%;
+    transform:translate(-50%,-50%);
+    font-family:var(--display);
+    font-size:min(62vw, 300px);
+    line-height:1;
+    color:transparent;
+    -webkit-text-stroke:1px rgba(18,18,18,.08);
+    font-weight:500;
+    z-index:0;
+    user-select:none;
+    pointer-events:none;
+  }
+  .hero > *{ position:relative; z-index:1; }
+  .hero-phrase{
+    font-style:italic;
+    font-weight:500;
+    font-size:18px;
+    line-height:1.55;
+    color:var(--ink-70);
+    max-width:320px;
+    margin:0 auto 34px;
+  }
+  .hero-names{
+    font-family:var(--display);
+    font-weight:500;
+    font-size:clamp(40px, 13vw, 56px);
+    letter-spacing:.03em;
+    line-height:1.05;
+    margin:0;
+  }
+  .hero-fullnames{
+    font-family:var(--sans);
+    font-size:11.5px;
+    letter-spacing:.06em;
+    color:var(--ink-45);
+    margin:16px 0 0;
+    line-height:1.7;
+  }
+  .hero-date{
+    margin-top:30px;
+    font-family:var(--display);
+    font-size:20px;
+    letter-spacing:.42em;
+    padding-left:.42em; /* balance the trailing tracking */
+  }
+  .hero-scroll{
+    margin-top:44px;
+    font-family:var(--sans);
+    font-size:10px;
+    letter-spacing:.2em;
+    text-transform:uppercase;
+    color:var(--ink-45);
+    display:inline-flex;
+    flex-direction:column;
+    align-items:center;
+    gap:8px;
+  }
+  .hero-scroll span{
+    width:1px; height:28px; background:var(--ink-45);
+    animation:pulse-down 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse-down{
+    0%,100%{ transform:scaleY(.6); opacity:.4; }
+    50%{ transform:scaleY(1); opacity:1; }
+  }
+
+  /* ============================================================
+     COUNTDOWN
+     ============================================================ */
+  .countdown-wrap{ text-align:center; border-bottom:1px solid var(--line); }
+  .countdown{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+    margin-top:8px;
+  }
+  .cd-box{ padding:4px 0; }
+  .cd-num{
+    font-family:var(--display);
+    font-size:clamp(26px,7.5vw,34px);
+    font-variant-numeric:tabular-nums;
+    letter-spacing:.02em;
+  }
+  .cd-label{
+    margin-top:6px;
+    font-family:var(--sans);
+    font-size:9.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--ink-45);
+  }
+  .cd-box + .cd-box{ border-left:1px solid var(--line-soft); }
+
+  /* ============================================================
+     PHOTOBOOTH TICKET — signature element
+     ============================================================ */
+  .booth-section{ border-bottom:1px solid var(--line); }
+  .ticket{
+    position:relative;
+    margin:26px auto 6px;
+    max-width:230px;
+    background:var(--white);
+    padding:18px 16px 20px;
+    box-shadow:var(--shadow-md);
+    transform:rotate(-1.4deg);
+  }
+  .tape{
+    position:absolute;
+    width:54px; height:20px;
+    background:rgba(18,18,18,.07);
+    border:1px solid rgba(18,18,18,.09);
+  }
+  .tape.tl{ top:-10px; left:-14px; transform:rotate(-38deg); }
+  .tape.tr{ top:-10px; right:-14px; transform:rotate(38deg); }
+  .ticket-head{
+    text-align:center;
+    font-family:var(--sans);
+    font-size:9px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--ink-45);
+    margin-bottom:12px;
+  }
+  .perf{
+    height:8px;
+    background-image:radial-gradient(circle, var(--paper) 2.4px, transparent 2.5px);
+    background-size:12px 8px;
+    background-repeat:repeat-x;
+    background-position:center;
+    margin:2px 0;
+  }
+  .strip-photos{ display:flex; flex-direction:column; gap:6px; padding:10px 0; }
+  .strip-photos img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    object-position:center;
+    display:block;
+    filter:grayscale(100%) contrast(110%);
+  }
+  .ticket-caption{
+    text-align:center;
+    margin-top:12px;
+    font-family:var(--serif);
+    font-style:italic;
+    font-size:14px;
+    color:var(--ink-70);
+  }
+
+  /* ============================================================
+     CARDS — Agenda, Dress code, Kids, Album, Regalo
+     ============================================================ */
+  .card{
+    background:var(--white);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:24px 22px;
+    box-shadow:var(--shadow-sm);
+  }
+  .card + .card{ margin-top:16px; }
+  .card-kicker{
+    font-family:var(--sans);
+    font-size:10px;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--ink-45);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .card-kicker svg{ width:14px; height:14px; flex:none; }
+  .card-title{
+    font-family:var(--display);
+    font-weight:500;
+    font-size:20px;
+    margin:0 0 6px;
+  }
+  .card-addr{
+    font-size:16px;
+    line-height:1.55;
+    color:var(--ink-70);
+    margin:0;
+  }
+  .card-time{
+    display:inline-block;
+    margin-top:12px;
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.1em;
+    border-top:1px solid var(--ink);
+    padding-top:8px;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    width:100%;
+    padding:15px 18px;
+    background:var(--ink);
+    color:var(--white);
+    font-family:var(--sans);
+    font-size:12px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    text-decoration:none;
+    border:1px solid var(--ink);
+    border-radius:var(--radius);
+    transition:background .25s ease, color .25s ease, transform .15s ease;
+  }
+  .btn:hover{ background:#000; }
+  .btn:active{ transform:scale(.98); }
+  .btn-outline{
+    background:transparent;
+    color:var(--ink);
+  }
+  .btn-outline:hover{ background:var(--ink); color:var(--white); }
+  .btn-row{ display:flex; gap:10px; margin-top:18px; }
+  .btn-row .btn{ width:auto; flex:1; }
+
+  .kids-note{
+    font-style:italic;
+    font-size:16px;
+    line-height:1.6;
+    color:var(--ink-70);
+  }
+
+  .copy-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:12px 0;
+    border-top:1px solid var(--line-soft);
+  }
+  .copy-row:first-of-type{ border-top:none; padding-top:4px; }
+  .copy-label{
+    font-family:var(--sans);
+    font-size:9.5px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-45);
+    margin-bottom:3px;
+  }
+  .copy-value{
+    font-family:var(--sans);
+    font-size:14px;
+    letter-spacing:.02em;
+    word-break:break-all;
+  }
+  .copy-btn{
+    flex:none;
+    background:transparent;
+    border:1px solid var(--ink);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-size:10px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    padding:8px 12px;
+    border-radius:var(--radius);
+    transition:background .2s ease, color .2s ease;
+  }
+  .copy-btn:hover{ background:var(--ink); color:var(--white); }
+  .copy-btn.copied{ background:var(--ink); color:var(--white); }
+
+  .gift-amount{
+    font-family:var(--display);
+    font-size:30px;
+    margin:2px 0 2px;
+  }
+  .gift-deadline{
+    font-family:var(--sans);
+    font-size:10.5px;
+    letter-spacing:.08em;
+    color:var(--ink-45);
+    margin-bottom:16px;
+  }
+  .gift-holder{
+    font-size:15px;
+    line-height:1.6;
+    color:var(--ink-70);
+    margin:14px 0 4px;
+  }
+
+  /* ============================================================
+     RSVP FLOATING MODAL
+     ============================================================ */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(18,18,18,.6);
+    display:flex; align-items:flex-end; justify-content:center;
+    z-index:50;
+    opacity:0; pointer-events:none;
+    transition:opacity .3s ease;
+  }
+  .modal-overlay.open{ opacity:1; pointer-events:auto; }
+  .modal{
+    width:100%; max-width:var(--maxw);
+    background:var(--white);
+    padding:30px 26px 26px;
+    border-radius:10px 10px 0 0;
+    max-height:88vh;
+    overflow-y:auto;
+    transform:translateY(100%);
+    transition:transform .35s cubic-bezier(.2,.8,.2,1);
+  }
+  .modal-overlay.open .modal{ transform:translateY(0); }
+  .modal-head{ display:flex; align-items:flex-start; justify-content:space-between; margin-bottom:6px; }
+  .modal-title{ font-family:var(--display); font-size:24px; font-weight:500; margin:0; }
+  .modal-close{
+    background:none; border:none; font-size:22px; line-height:1; color:var(--ink-45);
+    padding:0 0 0 12px;
+  }
+  .modal-sub{ font-size:15px; color:var(--ink-70); margin:0 0 22px; }
+
+  .field{ margin-bottom:18px; }
+  .field label{
+    display:block;
+    font-family:var(--sans);
+    font-size:10px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--ink-45);
+    margin-bottom:8px;
+  }
+  .field input[type=text], .field textarea{
+    width:100%;
+    border:none;
+    border-bottom:1px solid var(--line);
+    background:transparent;
+    font-family:var(--serif);
+    font-size:17px;
+    padding:8px 2px;
+    color:var(--ink);
+    resize:none;
+  }
+  .field input[type=text]:focus, .field textarea:focus{
+    outline:none; border-bottom-color:var(--ink);
+  }
+  .radio-group{ display:flex; gap:10px; }
+  .radio-pill{
+    flex:1;
+    text-align:center;
+    padding:12px 0;
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    font-family:var(--sans);
+    font-size:12px;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--ink-70);
+    transition:background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .radio-pill input{ display:none; }
+  .radio-pill.active{ background:var(--ink); border-color:var(--ink); color:var(--white); }
+
+  .form-feedback{
+    display:none;
+    margin-top:16px;
+    padding:14px 16px;
+    font-family:var(--sans);
+    font-size:12.5px;
+    letter-spacing:.02em;
+    border:1px solid var(--ink);
+    border-radius:var(--radius);
+    text-align:center;
+  }
+  .form-feedback.show{ display:block; }
+  .form-feedback.error{ border-color:#b3261e; color:#b3261e; }
+
+  /* ============================================================
+     BOTTOM BAR — sticky RSVP + music player, app-style
+     ============================================================ */
+  .bottombar{
+    position:fixed;
+    left:50%; bottom:0;
+    transform:translateX(-50%);
+    width:100%; max-width:var(--maxw);
+    background:var(--ink);
+    color:var(--white);
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px 14px;
+    z-index:40;
+    box-shadow:0 -6px 24px rgba(0,0,0,.25);
+  }
+  .play-btn{
+    flex:none;
+    width:40px; height:40px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.5);
+    background:transparent;
+    color:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    transition:background .2s ease;
+  }
+  .play-btn:hover{ background:rgba(255,255,255,.12); }
+  .play-btn svg{ width:14px; height:14px; }
+  .track-info{ flex:1; min-width:0; }
+  .track-title{
+    font-family:var(--sans);
+    font-size:11.5px;
+    letter-spacing:.03em;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .track-artist{
+    font-family:var(--sans);
+    font-size:9.5px;
+    color:rgba(255,255,255,.55);
+    letter-spacing:.04em;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .rsvp-cta{
+    flex:none;
+    font-family:var(--sans);
+    font-size:11px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    background:var(--white);
+    color:var(--ink);
+    border:none;
+    padding:11px 16px;
+    border-radius:var(--radius);
+    transition:opacity .2s ease;
+  }
+  .rsvp-cta:hover{ opacity:.85; }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  footer{
+    text-align:center;
+    padding:40px 28px 32px;
+  }
+  footer .rule{ margin-bottom:26px; }
+  footer .monogram{
+    font-family:var(--display);
+    font-size:26px;
+    margin-bottom:16px;
+  }
+  footer p{
+    font-family:var(--sans);
+    font-size:10px;
+    letter-spacing:.06em;
+    color:var(--ink-45);
+    margin:0;
+  }
+  footer a{ color:var(--ink-45); text-decoration:underline; text-underline-offset:2px; }
+  footer a:hover{ color:var(--ink); }
+
+  @media (max-width:380px){
+    section{ padding:52px 20px; }
+    .hero{ padding:48px 20px 40px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+
+<div class="app">
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <header class="hero">
+    <div class="hero-ghost" aria-hidden="true">20</div>
+    <p class="hero-phrase">Queremos celebrar 20 años de amor, con este evento del que queremos que seas parte.</p>
+    <h1 class="hero-names">Meli &amp; Negro</h1>
+    <p class="hero-fullnames">Melisa Lucía Fernández Leyes<br>&amp; Martín Mauricio Luna</p>
+    <p class="hero-date">14 • 11 • 2026</p>
+    <div class="hero-scroll"><span></span>Descubrí más</div>
+  </header>
+
+  <!-- ============================================================
+       COUNTDOWN
+       ============================================================ -->
+  <section class="countdown-wrap reveal">
+    <p class="eyebrow">Cuenta regresiva</p>
+    <div class="countdown" id="countdown">
+      <div class="cd-box"><div class="cd-num" id="cd-days">00</div><div class="cd-label">Días</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-hours">00</div><div class="cd-label">Horas</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-mins">00</div><div class="cd-label">Min</div></div>
+      <div class="cd-box"><div class="cd-num" id="cd-secs">00</div><div class="cd-label">Seg</div></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PHOTOBOOTH TICKET
+       ============================================================ -->
+  <section class="booth-section reveal">
+    <p class="eyebrow" style="text-align:center;">Nuestra historia</p>
+    <div class="ticket">
+      <div class="tape tl"></div>
+      <div class="tape tr"></div>
+      <div class="ticket-head">Fotomatón · 20 años</div>
+      <div class="perf"></div>
+      <div class="strip-photos">
+        <img src="assets/foto-1.jpeg" alt="Meli y Negro en un salón, junto al piano">
+        <img src="assets/foto-2.jpeg" alt="Meli y Negro entre la nieve, riendo">
+        <img src="assets/foto-3.jpeg" alt="Meli y Negro, primer plano sonriendo">
+      </div>
+      <div class="perf"></div>
+      <p class="ticket-caption">14 · 11 · 2026</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       AGENDA
+       ============================================================ -->
+  <section class="reveal">
+    <p class="eyebrow">Agenda</p>
+
+    <div class="card">
+      <div class="card-kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 3v3M18 3v3M4 8h16M5 5h14a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/></svg>
+        Ceremonia religiosa
+      </div>
+      <h3 class="card-title">Parroquia Ntra. Sra. de Fátima</h3>
+      <p class="card-addr">Av. del Viento Chorrillero 1602<br>Juana Koslay, San Luis</p>
+      <span class="card-time">18:30 HS</span>
+    </div>
+
+    <div class="card">
+      <div class="card-kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 21v-7l8-9 8 9v7M9 21v-6h6v6"/></svg>
+        La fiesta
+      </div>
+      <h3 class="card-title">Salón de los Contadores</h3>
+      <p class="card-addr">Juana Koslay, San Luis</p>
+      <span class="card-time">20:30 HS</span>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-outline" id="btn-ics">Descargar .ics</button>
+      <a class="btn" id="btn-gcal" href="#" target="_blank" rel="noopener">Google Calendar</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       DRESS CODE + NIÑOS
+       ============================================================ -->
+  <section class="reveal">
+    <p class="eyebrow">A tener en cuenta</p>
+
+    <div class="card">
+      <div class="card-kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="m6 3-3 4 3 3V21h12V10l3-3-3-4-4 3h-4L6 3Z"/></svg>
+        Dress code
+      </div>
+      <h3 class="card-title">Elegante</h3>
+    </div>
+
+    <div class="card">
+      <div class="card-kicker">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7"/></svg>
+        Noche de adultos
+      </div>
+      <p class="kids-note">Amamos a sus niños, pero esta noche queremos regalarles una velada para que bailen y disfruten sin preocupaciones.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ALBUM COMPARTIDO
+       ============================================================ -->
+  <section class="reveal">
+    <p class="eyebrow">Recuerdos</p>
+    <div class="card" style="text-align:center;">
+      <h3 class="card-title" style="margin-bottom:10px;">Álbum compartido</h3>
+      <p class="card-addr" style="margin-bottom:18px;">Sumá tus fotos de la noche a nuestra galería colectiva.</p>
+      <a class="btn" href="https://photos.app.goo.gl/Z6kSdgFJfvNHRfwk7" target="_blank" rel="noopener">Ver / subir fotos</a>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       REGALO / CBU
+       ============================================================ -->
+  <section class="reveal">
+    <p class="eyebrow">Si querés hacernos un regalo</p>
+    <div class="card">
+      <div class="gift-amount">$85.000</div>
+      <div class="gift-deadline">Cancelar antes del 15/10/2026</div>
+
+      <div class="rule-pair"><hr class="rule"><hr class="rule"></div>
+
+      <p class="gift-holder">
+        Melisa Lucia Fernandez Leyes<br>
+        CUIL: 23324102434<br>
+        N° Cuenta: CA $ 32404784171736
+      </p>
+
+      <div class="copy-row">
+        <div>
+          <div class="copy-label">Alias</div>
+          <div class="copy-value">Meliferle86</div>
+        </div>
+        <button class="copy-btn" data-copy="Meliferle86">Copiar</button>
+      </div>
+
+      <div class="copy-row">
+        <div>
+          <div class="copy-label">CBU</div>
+          <div class="copy-value">0110478730047841717365</div>
+        </div>
+        <button class="copy-btn" data-copy="0110478730047841717365">Copiar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer>
+    <hr class="rule">
+    <div class="monogram">M &amp; N</div>
+    <p>Desarrollado por <a href="https://www.somoslogica.com.ar" target="_blank" rel="noopener">Somos Lógica</a></p>
+  </footer>
+
+  <!-- ============================================================
+       BOTTOM BAR — music player + RSVP
+       ============================================================ -->
+  <div class="bottombar">
+    <button class="play-btn" id="play-btn" aria-label="Reproducir canción">
+      <svg id="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      <svg id="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+    </button>
+    <div class="track-info">
+      <div class="track-title">Para No Olvidar</div>
+      <div class="track-artist">Los Rodríguez</div>
+    </div>
+    <button class="rsvp-cta" id="open-rsvp">Confirmar</button>
+  </div>
+
+  <!-- Reproductor de YouTube oculto: transmite el audio oficial en vez de
+       alojar el archivo de la canción (derechos de autor). -->
+  <div id="yt-player" style="position:absolute; width:0; height:0; overflow:hidden;"></div>
+
+</div>
+
+<!-- ============================================================
+     RSVP MODAL
+     ============================================================ -->
+<div class="modal-overlay" id="rsvp-overlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 class="modal-title">Confirmar asistencia</h2>
+      <button class="modal-close" id="close-rsvp" aria-label="Cerrar">&times;</button>
+    </div>
+    <p class="modal-sub">Contanos si nos acompañás antes del 15/10/2026.</p>
+
+    <form id="rsvp-form">
+      <div class="field">
+        <label for="nombre">Nombre y apellido</label>
+        <input type="text" id="nombre" name="nombre" required autocomplete="name">
+      </div>
+
+      <div class="field">
+        <label>¿Nos acompañás?</label>
+        <div class="radio-group">
+          <label class="radio-pill" data-value="Sí">
+            <input type="radio" name="asistencia" value="Sí" required> Sí, voy
+          </label>
+          <label class="radio-pill" data-value="No">
+            <input type="radio" name="asistencia" value="No"> No puedo
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="menu">Menú especial / restricción alimentaria</label>
+        <textarea id="menu" name="menu" rows="2" placeholder="Opcional"></textarea>
+      </div>
+
+      <div class="field">
+        <label for="cancion">Una canción que no puede faltar</label>
+        <input type="text" id="cancion" name="cancion" placeholder="Opcional">
+      </div>
+
+      <button type="submit" class="btn" id="submit-btn">Enviar confirmación</button>
+      <div class="form-feedback" id="form-feedback"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+/* ================================================================
+   CONFIG
+   ================================================================ */
+// URL del Web App de Google Apps Script (ver codigo.gs). Reemplazar tras el deploy.
+const APPS_SCRIPT_URL = "TU_WEB_APP_URL_AQUI";
+
+// Fecha/hora de la ceremonia — Argentina (UTC-3)
+const EVENT_START = new Date("2026-11-14T18:30:00-03:00");
+// Fin estimado de la fiesta, para el calendario
+const EVENT_END   = new Date("2026-11-15T05:00:00-03:00");
+
+/* ================================================================
+   COUNTDOWN
+   ================================================================ */
+function pad(n){ return String(Math.max(n,0)).padStart(2,"0"); }
+
+function tickCountdown(){
+  const now = new Date();
+  let diff = EVENT_START - now;
+  if (diff < 0) diff = 0;
+
+  const days  = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins  = Math.floor((diff % 3600000) / 60000);
+  const secs  = Math.floor((diff % 60000) / 1000);
+
+  document.getElementById("cd-days").textContent  = pad(days);
+  document.getElementById("cd-hours").textContent = pad(hours);
+  document.getElementById("cd-mins").textContent  = pad(mins);
+  document.getElementById("cd-secs").textContent  = pad(secs);
+}
+tickCountdown();
+setInterval(tickCountdown, 1000);
+
+/* ================================================================
+   CALENDARIO — .ics y Google Calendar
+   ================================================================ */
+function toICSDate(d){
+  return d.toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
+}
+
+function buildICS(){
+  const description = "Ceremonia religiosa 18:30 hs en Parroquia Ntra. Sra. de Fatima, " +
+    "Av. del Viento Chorrillero 1602, Juana Koslay. Fiesta 20:30 hs en Salon de los " +
+    "Contadores, Juana Koslay, San Luis.";
+  return [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//Meli & Negro//Boda//ES",
+    "BEGIN:VEVENT",
+    "UID:" + Date.now() + "@meliynegro",
+    "DTSTAMP:" + toICSDate(new Date()),
+    "DTSTART:" + toICSDate(EVENT_START),
+    "DTEND:" + toICSDate(EVENT_END),
+    "SUMMARY:Boda de Meli & Negro",
+    "DESCRIPTION:" + description,
+    "LOCATION:Salón de los Contadores, Juana Koslay, San Luis",
+    "END:VEVENT",
+    "END:VCALENDAR"
+  ].join("\r\n");
+}
+
+document.getElementById("btn-ics").addEventListener("click", () => {
+  const blob = new Blob([buildICS()], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "boda-meli-y-negro.ics";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+(function setGoogleCalendarLink(){
+  const dates = toICSDate(EVENT_START) + "/" + toICSDate(EVENT_END);
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: "Boda de Meli & Negro",
+    dates: dates,
+    details: "Ceremonia 18:30 hs · Parroquia Ntra. Sra. de Fátima. Fiesta 20:30 hs · Salón de los Contadores.",
+    location: "Salón de los Contadores, Juana Koslay, San Luis"
+  });
+  document.getElementById("btn-gcal").href =
+    "https://calendar.google.com/calendar/render?" + params.toString();
+})();
+
+/* ================================================================
+   COPIAR ALIAS / CBU
+   ================================================================ */
+document.querySelectorAll(".copy-btn").forEach(btn => {
+  btn.addEventListener("click", async () => {
+    const value = btn.getAttribute("data-copy");
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch (err) {
+      const tmp = document.createElement("textarea");
+      tmp.value = value;
+      document.body.appendChild(tmp);
+      tmp.select();
+      document.execCommand("copy");
+      document.body.removeChild(tmp);
+    }
+    const original = btn.textContent;
+    btn.textContent = "¡Copiado!";
+    btn.classList.add("copied");
+    setTimeout(() => {
+      btn.textContent = original;
+      btn.classList.remove("copied");
+    }, 1800);
+  });
+});
+
+/* ================================================================
+   REPRODUCTOR STICKY — audio oficial de YouTube (oculto)
+   ================================================================
+   Se usa el audio oficial subido por el sello (DRO/EastWest, "Provided
+   to YouTube by") en lugar de alojar el archivo de la canción, para
+   respetar los derechos de autor. El reproductor visual es el mismo
+   botón de play/pausa de siempre; por dentro controla un iframe de
+   YouTube oculto (ancho/alto 0) vía la IFrame API.
+*/
+const YT_VIDEO_ID = "bKcv-D2YwP0"; // Los Rodríguez - Para no olvidar (audio oficial)
+
+const playBtn   = document.getElementById("play-btn");
+const iconPlay  = document.getElementById("icon-play");
+const iconPause = document.getElementById("icon-pause");
+
+let ytPlayer = null;
+let ytReady  = false;
+
+// Carga la IFrame API de YouTube de forma asíncrona
+const ytScript = document.createElement("script");
+ytScript.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(ytScript);
+
+window.onYouTubeIframeAPIReady = function () {
+  ytPlayer = new YT.Player("yt-player", {
+    height: "0",
+    width: "0",
+    videoId: YT_VIDEO_ID,
+    playerVars: {
+      autoplay: 0,
+      controls: 0,
+      disablekb: 1,
+      fs: 0,
+      modestbranding: 1,
+      playsinline: 1,
+      rel: 0
+    },
+    events: {
+      onReady: () => { ytReady = true; },
+      onStateChange: (event) => {
+        const playing = event.data === YT.PlayerState.PLAYING;
+        iconPlay.style.display  = playing ? "none"  : "block";
+        iconPause.style.display = playing ? "block" : "none";
+      }
+    }
+  });
+};
+
+playBtn.addEventListener("click", () => {
+  if (!ytReady || !ytPlayer) return; // la API todavía está cargando
+  const state = ytPlayer.getPlayerState();
+  if (state === YT.PlayerState.PLAYING) {
+    ytPlayer.pauseVideo();
+  } else {
+    ytPlayer.playVideo();
+  }
+});
+
+/* ================================================================
+   MODAL RSVP
+   ================================================================ */
+const overlay   = document.getElementById("rsvp-overlay");
+const openBtn   = document.getElementById("open-rsvp");
+const closeBtn  = document.getElementById("close-rsvp");
+
+function openModal(){ overlay.classList.add("open"); document.body.style.overflow="hidden"; }
+function closeModal(){ overlay.classList.remove("open"); document.body.style.overflow=""; }
+
+openBtn.addEventListener("click", openModal);
+closeBtn.addEventListener("click", closeModal);
+overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
+
+document.querySelectorAll(".radio-pill").forEach(pill => {
+  pill.addEventListener("click", () => {
+    document.querySelectorAll(".radio-pill").forEach(p => p.classList.remove("active"));
+    pill.classList.add("active");
+  });
+});
+
+/* ================================================================
+   ENVÍO RSVP -> GOOGLE SHEETS (Apps Script)
+   ================================================================ */
+const form      = document.getElementById("rsvp-form");
+const submitBtn = document.getElementById("submit-btn");
+const feedback  = document.getElementById("form-feedback");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    nombre:     form.nombre.value.trim(),
+    asistencia: form.asistencia.value,
+    menu:       form.menu.value.trim(),
+    cancion:    form.cancion.value.trim()
+  };
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Enviando…";
+  feedback.classList.remove("show","error");
+
+  try {
+    // mode: 'no-cors' + Content-Type text/plain evita el preflight de CORS
+    // que Google Apps Script no puede resolver correctamente. La respuesta
+    // llega "opaca" (no legible), por lo que asumimos éxito si no hubo
+    // error de red.
+    await fetch(APPS_SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(data)
+    });
+
+    feedback.textContent = "¡Gracias, " + (data.nombre.split(" ")[0] || "") + "! Tu confirmación fue recibida.";
+    feedback.classList.add("show");
+    form.reset();
+    document.querySelectorAll(".radio-pill").forEach(p => p.classList.remove("active"));
+    setTimeout(closeModal, 2200);
+
+  } catch (err) {
+    feedback.textContent = "No pudimos enviar tu confirmación. Probá de nuevo en unos minutos.";
+    feedback.classList.add("show","error");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Enviar confirmación";
+  }
+});
+
+/* ================================================================
+   REVEAL ON SCROLL
+   ================================================================ */
+const revealEls = document.querySelectorAll(".reveal");
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  revealEls.forEach(el => io.observe(el));
+} else {
+  revealEls.forEach(el => el.classList.add("is-visible"));
+}
+</script>
+</body>
+</html>
